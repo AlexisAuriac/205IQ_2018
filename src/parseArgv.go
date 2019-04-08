@@ -13,9 +13,30 @@ const FAILURE int = 84
 // SUCCESS is the constant representing the success of the program
 const SUCCESS int = 0
 
+// Study is an enum that determins the kind of study the programs must do
+type Study int
+
+// Enumeration of studies
+const (
+	Density           Study = 0
+	PercentageBelow   Study = 1
+	PercentageBetween Study = 2
+	Undefined         Study = 3
+)
+
+// Params is a structure containing the parsed argument sent to the program
+type Params struct {
+	u     uint
+	s     uint
+	iq1   uint
+	iq2   uint
+	study Study
+}
+
+// usage prints the usage of the program
 func usage() {
 	fmt.Println("USAGE")
-	fmt.Println("\t./205IQ u s [IQ1] [IQ2]")
+	fmt.Printf("\t%s u s [IQ1] [IQ2]\n", os.Args[0])
 	fmt.Println()
 	fmt.Println("DESCRIPTION")
 	fmt.Println("\tu\t\tmean")
@@ -24,11 +45,27 @@ func usage() {
 	fmt.Println("\tIQ2\t\tmaximum IQ")
 }
 
-// GetParameters tests if parameters are of the right
+// determinStudy determins the kind of study the programs must do
+func determinStudy(argv []string, params *Params) {
+	switch len(argv) {
+	case 2:
+		params.study = Density
+	case 3:
+		params.study = PercentageBelow
+	case 4:
+		params.study = PercentageBetween
+	default:
+		usage()
+		os.Exit(FAILURE)
+	}
+}
+
+// getParameters tests if parameters are of the right
 // type and transforms them in unsigned ints
-func GetParameters(argv []string, argConv []*uint) {
+func getParameters(argv []string, params *Params) {
 	ruint, _ := regexp.Compile("^[1-9]\\d*$")
 	argNames := []string{"mean", "standard deviation", "minimum IQ", "maximum IQ"}
+	argConv := []*uint{&params.u, &params.s, &params.iq1, &params.iq2}
 
 	for ndx, arg := range argv {
 		if !ruint.MatchString(arg) {
@@ -40,31 +77,26 @@ func GetParameters(argv []string, argConv []*uint) {
 	}
 }
 
+// checkValues checks if the values given as argument make sense
+func checkValues(params *Params) {
+	if params.study == PercentageBetween && params.iq1 >= params.iq2 {
+		fmt.Fprintln(os.Stderr, "Error: IQ minimum superior or equal to IQ maximum")
+		os.Exit(FAILURE)
+	}
+}
+
 // ParseArgv parses the arguments of the program and returns a constant
-func ParseArgv(argv []string) (u uint, s uint, iq1 uint, iq2 uint) {
-	iq1 = 0
-	iq2 = 200
+func ParseArgv(argv []string) *Params {
+	var params = &Params{u: 0, s: 0, iq1: 0, iq2: 200, study: Undefined}
 
 	if len(argv) == 1 && (argv[0] == "-h" || argv[0] == "--help") {
 		usage()
 		os.Exit(SUCCESS)
-	} else if len(argv) < 2 || len(argv) > 4 {
-		usage()
-		os.Exit(FAILURE)
 	}
 
-	GetParameters(argv, []*uint{&u, &s, &iq1, &iq2})
+	determinStudy(argv, params)
+	getParameters(argv, params)
+	checkValues(params)
 
-	// if !r.MatchString(argv[0]) {
-	// 	fmt.Fprint(os.Stderr, argv[0], ": Invalid constant\n")
-	// 	os.Exit(FAILURE)
-	// }
-
-	// a, _ := strconv.ParseFloat(argv[0], 64)
-
-	// if a < 0 || a > 2.5 {
-	// 	fmt.Fprint(os.Stderr, argv[0], ": Invalid constant\n")
-	// 	os.Exit(FAILURE)
-	// }
-	return u, s, iq1, iq2
+	return params
 }
