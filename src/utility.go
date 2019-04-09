@@ -2,7 +2,8 @@ package main
 
 import "math"
 
-func normDistrib(u uint, s uint, x float64) float64 {
+// NormDistrib computes the normal distribution given u, s and x
+func NormDistrib(u uint, s uint, x float64) float64 {
 	var uf = float64(u)
 	var sf = float64(s)
 
