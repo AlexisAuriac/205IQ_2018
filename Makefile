@@ -5,8 +5,9 @@
 ## Makefile for 205IQ.
 ##
 
-SRC		=	main.go					\
-			parseArgv.go
+SRC		=	main.go			\
+			parseArgv.go	\
+			utility.go
 
 SRC		:=	$(addprefix src/, $(SRC))
 
