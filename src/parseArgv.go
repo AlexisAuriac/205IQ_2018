@@ -13,26 +13,6 @@ const FAILURE int = 84
 // SUCCESS is the constant representing the success of the program
 const SUCCESS int = 0
 
-// Study is an enum that determins the kind of study the programs must do
-type Study int
-
-// Enumeration of studies
-const (
-	Density           Study = 0
-	PercentageBelow   Study = 1
-	PercentageBetween Study = 2
-	Undefined         Study = 3
-)
-
-// Params is a structure containing the parsed argument sent to the program
-type Params struct {
-	u     uint
-	s     uint
-	iq1   uint
-	iq2   uint
-	study Study
-}
-
 // usage prints the usage of the program
 func usage() {
 	fmt.Println("USAGE")
@@ -65,7 +45,7 @@ func determinStudy(argv []string, params *Params) {
 func getParameters(argv []string, params *Params) {
 	ruint, _ := regexp.Compile("^[1-9]\\d*$")
 	argNames := []string{"mean", "standard deviation", "minimum IQ", "maximum IQ"}
-	argConv := []*uint{&params.u, &params.s, &params.iq1, &params.iq2}
+	argConv := []*float64{&params.u, &params.s, &params.iq1, &params.iq2}
 
 	for ndx, arg := range argv {
 		if !ruint.MatchString(arg) {
@@ -73,7 +53,7 @@ func getParameters(argv []string, params *Params) {
 			os.Exit(FAILURE)
 		}
 		conv, _ := strconv.ParseUint(arg, 10, 64)
-		*argConv[ndx] = uint(conv)
+		*argConv[ndx] = float64(conv)
 	}
 }
 

@@ -6,6 +6,7 @@
 ##
 
 SRC		=	main.go			\
+			params.go		\
 			parseArgv.go	\
 			utility.go
 
