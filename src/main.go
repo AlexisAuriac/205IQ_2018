@@ -17,12 +17,9 @@ func main() {
 			CumulNormDistrib(params.u, params.s, params.iq1)*100,
 			int(params.iq1))
 	} else if params.study == PercentageBetween {
-		var res = 0.0
-		for i := params.iq1; i < params.iq2; i += 0.01 {
-			res += NormDistrib(params.u, params.s, i)
-		}
 		fmt.Printf("%.1f%% of people have an IQ between %d and %d\n",
-			res,
+			CumulNormDistrib(params.u, params.s, params.iq2)*100-
+				CumulNormDistrib(params.u, params.s, params.iq1)*100,
 			int(params.iq1),
 			int(params.iq2))
 	}
