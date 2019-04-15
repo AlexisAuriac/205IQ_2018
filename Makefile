@@ -19,6 +19,9 @@ all: $(NAME)
 $(NAME): $(SRC)
 	go build -o $(NAME) $(SRC)
 
+launch_tests:
+	go test ./src/
+
 fclean:
 	$(RM) $(NAME)
 

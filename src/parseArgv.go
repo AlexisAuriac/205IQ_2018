@@ -13,6 +13,12 @@ const FAILURE int = 84
 // SUCCESS is the constant representing the success of the program
 const SUCCESS int = 0
 
+// DefaultIQ1 is the default iq1
+const DefaultIQ1 float64 = 0
+
+// DefaultIQ2 is the default iq2
+const DefaultIQ2 float64 = 200
+
 // usage prints the usage of the program
 func usage() {
 	fmt.Println("USAGE")
@@ -67,7 +73,13 @@ func checkValues(params *Params) {
 
 // ParseArgv parses the arguments of the program and returns a constant
 func ParseArgv(argv []string) *Params {
-	var params = &Params{u: 0, s: 0, iq1: 0, iq2: 200, study: Undefined}
+	var params = &Params{
+		u:     0,
+		s:     0,
+		iq1:   DefaultIQ1,
+		iq2:   DefaultIQ2,
+		study: Undefined,
+	}
 
 	if len(argv) == 1 && (argv[0] == "-h" || argv[0] == "--help") {
 		usage()
