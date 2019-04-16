@@ -14,7 +14,8 @@ func main() {
 		}
 	} else if params.study == PercentageBelow {
 		fmt.Printf("%.1f%% of people have an IQ inferior to %d\n",
-			CumulNormDistrib(params.u, params.s, params.iq1)*100,
+			CumulNormDistrib(params.u, params.s, params.iq1)*100-
+				CumulNormDistrib(params.u, params.s, 0)*100,
 			int(params.iq1))
 	} else if params.study == PercentageBetween {
 		fmt.Printf("%.1f%% of people have an IQ between %d and %d\n",
