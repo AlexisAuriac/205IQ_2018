@@ -99,6 +99,10 @@ func TestInvalidValuesArgv(t *testing.T) {
 		[]string{"100", "15", "90", "0"},
 		[]string{"100", "15", "90", "85"},
 		[]string{"100", "15", "90", "90"},
+		[]string{"100", "15", "201"},
+		[]string{"100", "15", "201", "210"},
+		[]string{"100", "15", "201", "200"},
+		[]string{"100", "15", "100", "201"},
 	}
 	res := true
 
@@ -133,11 +137,10 @@ func TestValidValidArgv(t *testing.T) {
 	for i := range argvs {
 		params := ParseArgv(argvs[i])
 		if !reflect.DeepEqual(params, expect[i]) {
-			fmt.Printf("ParseArgv(%v) ->\n\texpected: %+v\n\tgot: %+v\n",
+			t.Fatalf("ParseArgv(%v) ->\n\texpected: %+v\n\tgot: %+v\n",
 				argvs[i],
 				params,
 				expect[i])
-			t.Fatalf("")
 		}
 	}
 }

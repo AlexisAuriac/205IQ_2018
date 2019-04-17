@@ -65,6 +65,12 @@ func getParameters(argv []string, params *Params) {
 
 // checkValues checks if the values given as argument make sense
 func checkValues(params *Params) {
+	if (params.study == PercentageBelow && params.iq1 > 200) ||
+		(params.study == PercentageBetween &&
+			(params.iq1 > 200 || params.iq2 > 200)) {
+		fmt.Fprintln(os.Stderr, "Error: IQ superior to 200")
+		os.Exit(FAILURE)
+	}
 	if params.study == PercentageBetween && params.iq1 >= params.iq2 {
 		fmt.Fprintln(os.Stderr, "Error: IQ minimum superior or equal to IQ maximum")
 		os.Exit(FAILURE)
