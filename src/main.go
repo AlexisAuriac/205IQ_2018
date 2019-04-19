@@ -29,11 +29,12 @@ func studyIQBetween(u float64, s float64, iq1 float64, iq2 float64) {
 func main() {
 	var params *Params = ParseArgv(os.Args[1:])
 
-	if params.study == Density {
+	switch params.study {
+	case Density:
 		studyDensity(params.u, params.s)
-	} else if params.study == PercentageBelow {
+	case PercentageBelow:
 		studyIQBelow(params.u, params.s, params.iq1)
-	} else if params.study == PercentageBetween {
+	case PercentageBetween:
 		studyIQBetween(params.u, params.s, params.iq1, params.iq2)
 	}
 }

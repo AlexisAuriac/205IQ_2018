@@ -121,9 +121,9 @@ func TestInvalidValuesArgv(t *testing.T) {
 	}
 }
 
-// TestValidValidArgv tests if ParseArgv returns the right params with good
+// TestValidArgv tests if ParseArgv returns the right params with good
 // arguments
-func TestValidValidArgv(t *testing.T) {
+func TestValidArgv(t *testing.T) {
 	argvs := [][]string{
 		[]string{"100", "15"},
 		[]string{"100", "15", "90"},
